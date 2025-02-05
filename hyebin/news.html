@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가짜 뉴스 판별기</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <h1>가짜 뉴스 판별기</h1>
+        <p>가짜 뉴스 판별기 통합 프로젝트</p>
+    </header>
+
+    <!-- 뉴스 업로드 섹션 -->
+    <section id="upload-section">
+        <h2>뉴스 링크 또는 파일 업로드</h2>
+
+        <!-- 뉴스 링크 입력 -->
+        <div id="news-link-section">
+            <label for="news-link">뉴스 링크 입력:</label>
+            <input type="url" id="news-link" name="news-link" placeholder="뉴스 링크를 입력하세요" />
+            <button id="crawl-button">링크 크롤링</button>
+        </div>
+
+        <!-- 파일 업로드 -->
+        <div id="file-upload-section">
+            <label for="news-file">파일 업로드 (TXT, CSV):</label>
+            <input type="file" id="news-file" name="news-file" accept=".txt, .csv" />
+            <button id="upload-button">파일 업로드</button>
+        </div>
+        
+        <p id="upload-status"></p>
+    </section>
+
+    <!-- 챗봇 섹션 -->
+    <section id="chatbot-section">
+        <div id="chatbot-container">
+            <div id="chatbot-window">
+                <div id="chatbot-messages">
+                    <!-- 챗봇 메시지 표시 영역 -->
+                </div>
+            </div>
+            <div id="chatbot-input-container">
+                <input type="text" id="user-input" placeholder="질문을 입력하세요..." autocomplete="off">
+                <button id="send-message">보내기</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="chatbot.js"></script>
+
+</body>
+</html>
