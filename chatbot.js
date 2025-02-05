@@ -8,6 +8,10 @@ const linkInput = document.getElementById("news-link");
 let crawledContent = null;
 let crawledUrl = null;
 
+const uploadButton = document.getElementById("upload-button");
+const fileInput = document.getElementById("news-file");
+const chatbox = document.getElementById("chatbox");
+
 const predefinedResponses = {
     "안녕": "안녕하세요! 무엇을 도와드릴까요? 😊",
     "가짜 뉴스란?": "가짜 뉴스는 사실이 아닌 정보나 거짓된 뉴스를 의미합니다.",
@@ -134,5 +138,62 @@ sendMessageButton.addEventListener("click", async () => {
         userInput.value = "";
     } else {
         alert("입력한 질문이 없습니다.");
+    }
+});
+
+uploadButton.addEventListener("click", async () => {
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("업로드할 파일을 선택하세요.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("news_file", file);
+
+    try {
+        console.log("📤 [UPLOAD] 파일 업로드 요청 시작!");
+
+        const response = await fetch("http://127.0.0.1:8000/upload", {
+            method: "POST",
+            body: formData
+        });
+
+        console.log("📥 [UPLOAD] 서버 응답 상태:", response.status);
+
+        const result = await response.json();
+        console.log("✅ [UPLOAD] 파일 업로드 결과:", result);
+
+        if (result.success) {
+            displayChatbotMessage("파일이 업로드 되었습니다.", false);
+
+            console.log("🔍 [KEYWORDS] 키워드 추출 요청 시작");
+            
+            const keywordsResponse = await fetch("http://127.0.0.1:8000/keywords_from_text", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: result.content })  // ✅ 'text' 대신 'result.content' 사용
+            });
+
+            console.log("📥 [KEYWORDS] 서버 응답 상태:", keywordsResponse.status);
+
+            const keywordsResult = await keywordsResponse.json();
+            console.log("✅ [KEYWORDS] 추출 결과:", keywordsResult);
+
+            // ✅ 로컬 스토리지에 저장 추가
+            if (keywordsResult.success) {
+                localStorage.setItem("keywords", JSON.stringify(keywordsResult.keywords));
+                console.log("✅ 키워드가 로컬 스토리지에 저장됨:", keywordsResult.keywords);
+            } else {
+                console.error("❌ 키워드 추출 실패:", keywordsResult);
+            }
+
+        } else {
+            displayChatbotMessage(`파일 업로드 실패: ${result.message}`, false);
+        }
+    } catch (error) {
+        console.error("❌ 파일 업로드 오류:", error);
+        displayChatbotMessage("파일 업로드 중 오류가 발생했습니다.", false);
     }
 });

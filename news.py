@@ -31,29 +31,11 @@ class QuestionRequest(BaseModel):
 class SummarizeRequest(BaseModel):
     content: str
 
-def extract_keywords(text, top_n=10):
-    """본문에서 고유명사와 명사를 우선순위로 추출하는 함수"""
-    # 먼저, 전체 명사를 추출
-    words = okt.pos(text)  # (단어, 품사) 튜플 리스트
+class TextRequest(BaseModel):
+    content: str
 
-    # 고유명사와 일반 명사 추출
-    proper_nouns = [word for word, pos in words if pos == 'Nnp']
-    common_nouns = [word for word, pos in words if pos == 'Noun']
-
-    # 고유명사가 있으면 일반 명사는 제외, 없으면 모두 포함
-    if proper_nouns:
-        all_nouns = proper_nouns
-    else:
-        all_nouns = proper_nouns + common_nouns
-
-    # 두 글자 이상의 단어만 필터링
-    all_nouns = [word for word in all_nouns if len(word) > 1]
-
-    word_counts = Counter(all_nouns)
-    keywords = [word for word, _ in word_counts.most_common(top_n)]
-    if not keywords:
-        print("⚠️ 키워드가 추출되지 않았습니다.")
-    return keywords
+class keywordRequest(BaseModel):
+    content: str
 
 app.add_middleware(
     CORSMiddleware,
@@ -71,7 +53,11 @@ async def root():
 async def extract_keywords_from_content(request: UrlRequest):
     try:
         url = request.url
-        response = requests.get(url)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        
         if response.status_code != 200:
             raise HTTPException(status_code=500, detail="웹 페이지 요청 실패")
         
@@ -85,22 +71,23 @@ async def extract_keywords_from_content(request: UrlRequest):
         for span in soup.find_all('span', title=True):
             span.decompose()
 
-        # article 태그만 선택하여 텍스트 추출
+        # 다양한 태그에서 본문 텍스트 추출
         article_content = ""
-        article_tags = soup.find_all('article')
-        for article in article_tags:
-            article_content += article.get_text(separator=" ")
+        for tag in ["article"]:
+            for element in soup.find_all(tag):
+                article_content += element.get_text(separator=" ") + " "
 
-        if not article_content:
+        if not article_content.strip():
             raise HTTPException(status_code=500, detail="크롤링된 콘텐츠가 없습니다.")
 
         # 키워드 추출 (상위 1개)
         keywords = extract_keywords(article_content, top_n=1)
         print("✅ 추출된 키워드:", keywords)
-        
-        # 만약 화면에 표시하지 않으려면, "message" 필드만 반환할 수도 있습니다.
+
         return {"keywords": keywords}
 
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=500, detail=f"요청 중 오류 발생: {str(e)}")
     except Exception as e:
         print(f"🔥 서버 오류 발생: {str(e)}")
         raise HTTPException(status_code=500, detail=f"서버 오류 발생: {str(e)}")
@@ -181,20 +168,63 @@ async def summarize_content(request: SummarizeRequest):
         print(f"🔥 서버 오류 발생: {str(e)}")
         raise HTTPException(status_code=500, detail=f"서버 오류 발생: {str(e)}")
 
+class TextRequest(BaseModel):
+    content: str
+
+def extract_keywords(text, top_n=1):
+    """텍스트에서 핵심 키워드 추출"""
+    words = okt.pos(text)
+    print("📌 형태소 분석 결과:", words)  # 🔥 디버깅 로그 추가
+
+    # 고유명사(Nnp)와 일반명사(Noun) 추출
+    proper_nouns = [word for word, pos in words if pos == 'Nnp']
+    common_nouns = [word for word, pos in words if pos == 'Noun']
+    print("✅ 고유명사:", proper_nouns)  # 🔥 로그 추가
+    print("✅ 일반명사:", common_nouns)
+
+    # 고유명사와 일반명사 합치기
+    all_nouns = proper_nouns + common_nouns
+    all_nouns = [word for word in all_nouns if len(word) > 1]  # 길이가 1보다 큰 단어만 필터링
+
+    # 명사 카운팅
+    word_counts = Counter(all_nouns)
+    filtered_words = [word for word, _ in word_counts.most_common(top_n) if len(word) > 1]
+    
+    # 디버깅 출력
+    print("✅ 추출된 키워드:", filtered_words)
+    
+    return filtered_words if filtered_words else ["키워드 없음"]
+
+
 @app.post("/upload")
-async def upload_file(news_file: UploadFile = File(...)):
-    try:
-        file_location = f"temp_files/{news_file.filename}"
-        os.makedirs("temp_files", exist_ok=True)
-        with open(file_location, "wb") as f:
-            shutil.copyfileobj(news_file.file, f)
-        
-        if news_file.filename.endswith('.txt'):
-            with open(file_location, "r", encoding="utf-8") as file:
-                file_content = file.read()
-            return {"success": True, "message": "파일이 성공적으로 업로드되었습니다!", "content": file_content}
-        else:
-            return {"success": False, "message": "업로드된 파일은 txt 파일이어야 합니다."}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"파일 업로드 중 오류 발생: {str(e)}")
+async def upload_file(news_file: UploadFile = File(...)):  # ✅ news_file의 이름이 맞는지 확인!
+    if not news_file.filename.endswith(".txt"):
+        raise HTTPException(status_code=400, detail="지원되지 않는 파일 형식입니다. .txt 파일만 업로드하세요.")
+
+    content = await news_file.read()  # 🔥 파일 읽기
+    text_content = content.decode("utf-8").strip()
+
+    print("📂 [UPLOAD] 파일 내용 (200자까지):", text_content[:200])  # 🔥 첫 200자만 출력
+
+    if not text_content:
+        raise HTTPException(status_code=400, detail="파일이 비어 있습니다.")
+
+    return {"success": True, "content": text_content}
+
+async def prevent_get_upload():
+    raise HTTPException(status_code=405, detail="이 경로는 POST 요청만 지원합니다.")
+
+@app.post("/keywords_from_text")
+async def extract_keywords_from_text(data: dict):
+    content = data.get("content", "").strip()
+    
+    print("🔍 키워드 추출 요청된 텍스트:", content[:200])  # 🔥 첫 200글자 출력
+
+    if not content:
+        raise HTTPException(status_code=400, detail="추출할 텍스트가 없습니다.")
+
+    keywords = extract_keywords(content, top_n=1)  # ✅ 키워드 1개 추출
+    print("✅ 추출된 키워드:", keywords)
+
+    return {"success": True, "keywords": keywords}
 
