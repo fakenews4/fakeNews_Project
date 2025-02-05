@@ -13,7 +13,7 @@ def get_publisher_from_url(originallink):
     parsed_url = urlparse(originallink)
     domain = parsed_url.netloc.replace("www.", "")  # `www.` 제거
 
-    return PUBLISHER_MAPPING.get(domain, "언론사")  # 매칭 안 되면 `Unknown` 반환
+    return PUBLISHER_MAPPING.get(domain, "지방언론사")  # 매칭 안 되면 `Unknown` 반환
 
 # API 호출: 키워드를 기반으로 뉴스 가져오기
 def fetch_news_from_api(keywords, display=100):
