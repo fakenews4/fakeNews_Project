@@ -6,6 +6,7 @@ const crawlButton = document.getElementById("crawl-button");
 const linkInput = document.getElementById("news-link");
 
 let crawledContent = null;
+let uploadedContent = null;
 let crawledUrl = null;
 
 const uploadButton = document.getElementById("upload-button");
@@ -44,6 +45,7 @@ async function crawlNews(url) {
         }
 
         crawledContent = extractedContent;
+        displayChatbotMessage("뉴스 링크가 업로드되었습니다.", false);
         crawledUrl = url;
 
         // 키워드 추출은 백엔드에서 처리하지만, 화면에는 표시하지 않음
@@ -113,6 +115,28 @@ sendMessageButton.addEventListener("click", async () => {
             }
         } else if (userMessage.startsWith("http://") || userMessage.startsWith("https://")) {
             crawlNews(userMessage);
+        } else if (userMessage.includes("요약")) {
+            // 요약 요청: 크롤링한 뉴스 또는 업로드한 파일 중 최신 데이터를 요약
+            let contentToSummarize = crawledContent || uploadedContent;
+        
+            if (!contentToSummarize) {
+                typingMessage.innerHTML = `<strong>챗봇:</strong> 요약할 내용이 없습니다. 먼저 크롤링하거나 파일을 업로드하세요.`;
+                return;
+            }
+        
+            try {
+                const response = await fetch("http://127.0.0.1:8000/summarize", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ content: contentToSummarize })
+                });
+                const result = await response.json();
+                const summary = result.summary || "요약을 생성할 수 없습니다.";
+                typingMessage.innerHTML = `<strong>챗봇:</strong> ${summary}`;
+            } catch (error) {
+                console.error("요약 요청 오류:", error);
+                typingMessage.innerHTML = `<strong>챗봇:</strong> 요약 생성 중 오류가 발생했습니다.`;
+            }
         } else {
             try {
                 const response = await fetch("http://127.0.0.1:8000/ask", {
@@ -166,6 +190,7 @@ uploadButton.addEventListener("click", async () => {
         console.log("✅ [UPLOAD] 파일 업로드 결과:", result);
 
         if (result.success) {
+            uploadedContent = result.content;  // 파일 내용을 저장
             displayChatbotMessage("파일이 업로드 되었습니다.", false);
 
             console.log("🔍 [KEYWORDS] 키워드 추출 요청 시작");
