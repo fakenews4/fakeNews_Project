@@ -6,7 +6,7 @@ print("✅ FastAPI 서버 시작 중...")  # ✅ 서버 시작 확인 로그
 app = FastAPI()
 
 app.include_router(news.router)
-app.include_router(fake_news.router)
+# app.include_router(fake_news.router)
 
 @app.get("/")
 def root():
