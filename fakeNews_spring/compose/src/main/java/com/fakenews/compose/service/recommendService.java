@@ -47,7 +47,8 @@ public class recommendService {
                 recommendDTO dto = new recommendDTO(
                         obj.optString("title", "No Title"),
                         obj.optString("link", "No Link"),
-                        Jsoup.parse(obj.optString("description", "No Description")).text() // HTML 태그 제거
+                        Jsoup.parse(obj.optString("description", "No Description")).text(), // HTML 태그 제거
+                        obj.optString("publisher", "언론사") // ✅ publisher 정보 추가
                 );
 
                 System.out.println("📌 변환된 DTO: " + dto.toString());

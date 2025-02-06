@@ -1,21 +1,15 @@
 from fastapi import FastAPI, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import asyncio
-from fastapi.staticfiles import StaticFiles
-import os
 
-from static.handler.crawl import crawl_url
-from static.handler.summarize import summarize_content
-from static.handler.keywords import extract_keywords_from_content, extract_keywords_from_text
-from static.handler.chatbot import ask_question
-from static.handler.file_handler import upload_file
+from handler.crawl import crawl_url
+from handler.summarize import summarize_content
+from handler.keywords import extract_keywords_from_content, extract_keywords_from_text
+from handler.chatbot import ask_question
+from handler.file_handler import upload_file
 
 app = FastAPI()
-
-# 'static' 폴더에서 정적 파일을 서빙하도록 설정
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # CORS 설정
 app.add_middleware(
@@ -37,11 +31,8 @@ class SummarizeRequest(BaseModel):
     content: str
 
 @app.get("/")
-async def read_root():
-    file_path = os.path.join(os.getcwd(), "static", "index.html")
-    with open(file_path, "r", encoding="utf-8") as file:
-        content = file.read()
-    return HTMLResponse(content=content)
+async def root():
+    return {"message": "FastAPI 서버가 실행 중입니다!"}
 
 # 📌 크롤링 엔드포인트
 @app.post("/crawl")
@@ -72,4 +63,3 @@ async def ask_chatbot(request: QuestionRequest):
 @app.post("/upload")
 async def upload(news_file: UploadFile = File(...)):
     return await upload_file(news_file)
-
