@@ -2,6 +2,15 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.2'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'war'
+}
+
+war {
+	enabled = true
+}
+
+bootJar {
+	enabled = false
 }
 
 group = 'com.fakenews'
@@ -23,10 +32,13 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
 	implementation 'org.jsoup:jsoup:1.15.4'
 	implementation 'org.json:json:20231013'
 	compileOnly 'org.projectlombok:lombok'
