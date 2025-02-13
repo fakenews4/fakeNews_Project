@@ -6,7 +6,7 @@ async def summarize_content(content: str):
     try:
         print("요약 시작...")  # 요약 시작 로그
 
-        summarize_question = f"다음 내용을 요약해 주세요: {content}"
+        summarize_question = f"다음 내용을 요약해 주세요(100자 내외): {content}"
 
         # 비동기적으로 요약 요청 처리
         response = await asyncio.to_thread(
