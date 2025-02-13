@@ -227,3 +227,41 @@ uploadButton.addEventListener("click", async () => {
         displayChatbotMessage("파일 업로드 중 오류가 발생했습니다.", false);
     }
 });
+
+async function movelocation() {
+    try {
+        // ✅ FastAPI에서 뉴스 데이터 가져오기
+        let keywords = localStorage.getItem("keywords") || "korea";
+
+        // ✅ keywords가 JSON 배열이면 문자열로 변환
+        if (keywords.startsWith("[") && keywords.endsWith("]")) {
+            keywords = JSON.parse(keywords)[0];  // 배열의 첫 번째 값만 사용
+        }
+
+        let fastApiResponse = await fetch(`http://localhost:8000/news/recommend?keywords=${keywords}`);
+        let newsData = await fastApiResponse.json();
+        
+        console.log("📌 FastAPI에서 받은 데이터:", newsData);
+
+        // ✅ Spring Boot로 데이터 전송 (경로 변경: `/api/recommend`)
+        let springResponse = await fetch("http://localhost:8080/api/recommend", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ keywords: keywords, news: newsData })  // JSON 데이터 전송
+        });
+
+        let jsonResponse = await springResponse.json();
+        console.log("📌 Spring Boot 응답 (JSON):", jsonResponse);
+
+        // ✅ JSP 페이지로 이동 (GET 요청)
+        window.location.href = `http://localhost:8080/recommend?keywords=${encodeURIComponent(keywords)}`;
+
+    } catch (error) {
+        console.error("📌 오류 발생:", error);
+    }
+}
+
+// 버튼 클릭 시 실행
+document.getElementById("recommend_btn").addEventListener("click", fetchAndSendToSpring);

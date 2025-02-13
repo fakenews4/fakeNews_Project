@@ -7,8 +7,8 @@ train_df = pd.read_csv("./dataset/korean_fake_news_train.csv")
 valid_df = pd.read_csv("./dataset/korean_fake_news_valid.csv")
 
 # ✅ 데이터의 10%만 사용 (학습 속도 테스트용)
-train_df = train_df.sample(frac=0.1, random_state=42)
-valid_df = valid_df.sample(frac=0.1, random_state=42)
+# train_df = train_df.sample(frac=0.1, random_state=42)
+# valid_df = valid_df.sample(frac=0.1, random_state=42)
 
 
 # ✅ 제목 + 본문을 결합하여 학습
@@ -24,7 +24,12 @@ tokenizer = BertTokenizer.from_pretrained("monologg/kobert")
 
 # ✅ 데이터 토큰화 함수
 def preprocess_function(examples):
-    return tokenizer(examples["text"], truncation=True, padding="max_length", max_length=512)
+    return tokenizer(
+        examples["text"], 
+        truncation=True, 
+        padding="max_length"
+        # max_length=512
+        )
 
 # ✅ 데이터셋 토큰화 적용
 train_tokenized = train_dataset.map(preprocess_function, batched=True)

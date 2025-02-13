@@ -19,6 +19,24 @@ body {
     font-size: 36px;
 }
 
+#recommend {
+    display: flex;
+}
+
+#recommend_detail{
+    margin-left: auto;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 5%;
+    padding: 10px;
+    color: #0078d4;
+}
+
+#recommend a:hover{
+    transition: 0.5s;
+    color: black;
+}
+
 /* 뉴스 업로드 섹션 스타일 */
 #upload-section {
     margin: 20px auto;
