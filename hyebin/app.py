@@ -3,11 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import asyncio
 
-from handler.crawl import crawl_url
-from handler.summarize import summarize_content
-from handler.keywords import extract_keywords_from_content, extract_keywords_from_text
-from handler.chatbot import ask_question
-from handler.file_handler import upload_file
+from static.handler.crawl import crawl_url
+from static.handler.summarize import summarize_content
+from static.handler.keywords import extract_keywords_from_content, extract_keywords_from_text
+from static.handler.chatbot import ask_question
+from static.handler.file_handler import upload_file
 
 app = FastAPI()
 
