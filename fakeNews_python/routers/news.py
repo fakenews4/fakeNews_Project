@@ -12,6 +12,7 @@ def fetch_and_recommend_news(keywords: str = "korea"):
         if not news_items:
             return {"message": "No news found for the given keywords."}
 
+
         # Step 2: Save news to database
         save_news_to_db(news_items)
 

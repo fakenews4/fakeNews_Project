@@ -26,7 +26,7 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 # ✅ 라우터 추가
 app.include_router(main_news.router)  # main_news에서 기능 엔드포인트 관리
 app.include_router(news.router)
-app.include_router(fake_news.router)
+# app.include_router(fake_news.router)
 
 @app.get("/")
 async def read_root():

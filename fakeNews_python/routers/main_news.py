@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, File, UploadFile
 from pydantic import BaseModel
 from handler.crawl import crawl_url
-from handler.summarize import summarize_content
 from handler.keywords import extract_keywords_from_content, extract_keywords_from_text
 from handler.chatbot import ask_question
 from handler.file_handler import upload_file
+from handler.summarize import summarize_content
 
 router = APIRouter()
 
