@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1010e647-5323-4dbf-86d2-619af056f822" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/../fakeNews_python/static/chatbot.js" beforeDir="false" afterPath="$PROJECT_DIR$/../fakeNews_python/static/chatbot.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/fakeNews_spring.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/compose.main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.MD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/ComposeApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/controller/ApiRecommendController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/controller/recommendController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/dto/recommendDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/service/recommendService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/main/webapp/WEB-INF/views/recommend.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/main/webapp/static/chatbot.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/main/webapp/static/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose/src/test/java/com/fakenews/compose/ComposeApplicationTests.java" beforeDir="false" />
-    </list>
+    <list default="true" id="1010e647-5323-4dbf-86d2-619af056f822" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -114,7 +84,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1739767745799</updated>
-      <workItem from="1739767747060" duration="6426000" />
+      <workItem from="1739767747060" duration="6625000" />
     </task>
     <servers />
   </component>
