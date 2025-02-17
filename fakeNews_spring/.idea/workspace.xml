@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1010e647-5323-4dbf-86d2-619af056f822" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/../fakeNews_python/static/chatbot.js" beforeDir="false" afterPath="$PROJECT_DIR$/../fakeNews_python/static/chatbot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/fakeNews_spring.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/compose.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.MD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/ComposeApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/controller/ApiRecommendController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/controller/recommendController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/dto/recommendDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/main/java/com/fakenews/compose/service/recommendService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/main/webapp/WEB-INF/views/recommend.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/main/webapp/static/chatbot.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/main/webapp/static/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose/src/test/java/com/fakenews/compose/ComposeApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/compose">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2t9cUSUXyqxUxfPFKonFThAyRbQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.compose 빌드.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.ComposeApplication.executor": "Run",
+    "git-widget-placeholder": "hansol",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/User/Desktop/fakenews/build.gradle",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "모듈",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="ComposeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="compose.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fakenews.compose.ComposeApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19416.15" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19416.15" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="1010e647-5323-4dbf-86d2-619af056f822" name="변경" comment="" />
+      <created>1739767745799</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1739767745799</updated>
+      <workItem from="1739767747060" duration="6426000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

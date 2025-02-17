@@ -230,38 +230,52 @@ uploadButton.addEventListener("click", async () => {
 
 async function movelocation() {
     try {
-        // ✅ FastAPI에서 뉴스 데이터 가져오기
         let keywords = localStorage.getItem("keywords") || "korea";
 
         // ✅ keywords가 JSON 배열이면 문자열로 변환
-        if (keywords.startsWith("[") && keywords.endsWith("]")) {
-            keywords = JSON.parse(keywords)[0];  // 배열의 첫 번째 값만 사용
+        try {
+            if (typeof keywords === "string" && keywords.startsWith("[") && keywords.endsWith("]")) {
+                keywords = JSON.parse(keywords)[0] || "korea";
+            }
+        } catch (err) {
+            console.error("📌 keywords 파싱 오류:", err);
+            keywords = "korea";  // 오류 발생 시 기본값 설정
         }
+        console.log("📌 최종 keywords:", keywords);
 
+        // ✅ FastAPI에서 뉴스 데이터 가져오기
         let fastApiResponse = await fetch(`http://localhost:8000/news/recommend?keywords=${keywords}`);
         let newsData = await fastApiResponse.json();
-        
+
         console.log("📌 FastAPI에서 받은 데이터:", newsData);
 
-        // ✅ Spring Boot로 데이터 전송 (경로 변경: `/api/recommend`)
+        if (!newsData || !newsData.news) {
+            throw new Error("📌 FastAPI 응답에 'news' 키가 없습니다.");
+        }
+
+        // ✅ Spring Boot로 데이터 전송
+        let requestBody = JSON.stringify({ keywords: keywords, news: newsData });
+        console.log("📌 전송할 데이터:", requestBody);
+
         let springResponse = await fetch("http://localhost:8080/api/recommend", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ keywords: keywords, news: newsData })  // JSON 데이터 전송
+            headers: { "Content-Type": "application/json" },
+            body: requestBody
         });
 
         let jsonResponse = await springResponse.json();
         console.log("📌 Spring Boot 응답 (JSON):", jsonResponse);
 
-        // ✅ JSP 페이지로 이동 (GET 요청)
-        window.location.href = `http://localhost:8080/recommend?keywords=${encodeURIComponent(keywords)}`;
+        // ✅ JSP 페이지로 이동
+        let redirectUrl = `http://localhost:8080/recommend?keywords=${encodeURIComponent(keywords)}`;
+        console.log("📌 이동 URL: ", redirectUrl);
+        window.location.href = redirectUrl;
 
     } catch (error) {
         console.error("📌 오류 발생:", error);
     }
 }
+
 
 // 버튼 클릭 시 실행
 document.getElementById("recommend_btn").addEventListener("click", fetchAndSendToSpring);
