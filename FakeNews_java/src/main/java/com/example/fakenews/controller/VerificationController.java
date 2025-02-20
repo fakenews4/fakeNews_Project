@@ -17,6 +17,8 @@ public class VerificationController {
         // ✅ FastAPI에서 모든 기능 처리 후 결과 반환
         var verificationResult = verificationService.processVerification(url);
 
+        System.out.println(verificationResult);
+
         // ✅ JSP로 데이터 전달
         model.addAttribute("result", verificationResult);
         return "distinguish";  // ✅ `resultPage.jsp`로 이동
