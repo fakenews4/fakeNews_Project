@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>뉴스 판별</title>
@@ -9,6 +10,10 @@
 <div>
     <div id="main_box">
         <h3>뉴스 판별 페이지</h3>
+        <p>${result.summary}</p>
+        <p>${result.analysis.label}</p>
+        <p>${result.analysis.credibility_score}</p>
+        <p>${result.analysis.gemini_analysis}</p>
     </div>
 </div>
 </body>
