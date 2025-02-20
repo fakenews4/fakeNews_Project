@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+}
+
+#main_header{
+    display: flex;
+    justify-content: space-between;
+    height: 70px;
+}
+
+#main_logo{
+    padding:25px;
+}
+
+#main_recommend{
+    padding: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out;
+}
+#main_recommend:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+#discrimination:hover{
+    cursor: pointer;
+}

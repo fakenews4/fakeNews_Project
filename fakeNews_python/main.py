@@ -1,47 +1,39 @@
-from fastapi import FastAPI, HTTPException
-from handler.proposal import fetch_news_from_api, save_news_to_db, get_random_news_recommendations
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+import os
+from routers import news, crawler
+
+print("✅ FastAPI 서버 시작 중...")
 
 app = FastAPI()
 
-@app.get("/news/fetch")
-def fetch_news(keywords):
-    """
-    Fetch news articles from the API based on the given keywords.
-    """
-    if not keywords:
-        raise HTTPException(status_code=400, detail="Keywords are required")
+# ✅ CORS 설정 추가 (FastAPI 객체에서 해야 함)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+)
 
-    try:
-        news_items = fetch_news_from_api(keywords)
-        save_news_to_db(news_items)
-        return {"message": "News fetched and saved successfully", "news_count": len(news_items)}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# ✅ 정적 파일 서빙 설정 (FastAPI 객체에서 해야 함)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# ✅ 라우터 추가
+app.include_router(news.router)
+app.include_router(crawler.router)
+
+@app.get("/")
+async def read_root():
+    file_path = os.path.join(os.getcwd(), "static", "index.html")
+    with open(file_path, "r", encoding="utf-8") as file:
+        content = file.read()
+    return HTMLResponse(content=content)
+
+print("✅ FastAPI 서버가 정상적으로 실행되었습니다!")
 
 
-@app.get("/news/recommend")
-def recommend_news(keywords):
-    """
-    Recommend random news articles based on the given keywords.
-    """
-    if not keywords:\
-        raise HTTPException(status_code=400, detail="Keywords are required")
-
-    try:
-        recommended_news = get_random_news_recommendations(keywords)
-        if recommended_news.empty:
-            return {"message": "No related news found."}
-
-        recommendations = []
-        for idx, row in recommended_news.iterrows():
-            recommendations.append({
-                "title": row["title"],
-                "link": row["link"],
-                "description": row["description"],
-            })
-
-        return {"message": "Recommendations found", "news": recommendations}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
-    
