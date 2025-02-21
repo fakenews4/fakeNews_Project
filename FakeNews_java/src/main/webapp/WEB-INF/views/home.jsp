@@ -80,19 +80,19 @@
 </head>
 <body>
 
-<!-- 뉴스 추천 버튼 -->
-<div id="main_recommend" onclick="move()">뉴스 추천</div>
+    <!-- 뉴스 추천 버튼 -->
+    <div id="main_recommend" onclick="move()">뉴스 추천</div>
 
-<!-- 로고 -->
-<div id="main_logo">
-    <img src="${pageContext.request.contextPath}/images/logo.png" alt="logo">
-</div>
+    <!-- 로고 -->
+    <div id="main_logo">
+        <img src="${pageContext.request.contextPath}/images/logo.png" alt="logo">
+    </div>
 
-<!-- 검색 입력창과 버튼 -->
-<form action="/distinguish" method="POST">
-    <input type="text" id="url" name="url" placeholder="검증할 URL을 입력하세요" required>
-    <button type="submit">검증하기</button>
-</form>
+    <!-- 검색 입력창과 버튼 -->
+    <form action="/distinguish" method="POST">
+        <input type="text" id="url" name="url" placeholder="검증할 URL을 입력하세요" required>
+        <button type="submit">검증하기</button>
+    </form>
 
 </body>
 </html>
