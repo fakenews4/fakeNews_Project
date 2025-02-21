@@ -19,4 +19,6 @@ app.add_middleware(
 app.include_router(news.router)
 app.include_router(crawler.router)
 
+
 print("✅ FastAPI 서버가 정상적으로 실행되었습니다!")
+
