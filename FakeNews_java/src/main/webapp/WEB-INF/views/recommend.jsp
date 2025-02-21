@@ -15,7 +15,7 @@
             <h2>📰 추천 뉴스</h2>
         </div>
         <div class="card-body">
-            <button onclick="history.back()" class="btn btn-secondary mb-4">⬅ 이전 페이지</button>
+            <button onclick="window.location.href='http://localhost:8080/'" class="btn btn-secondary mb-4">⬅ 이전 페이지</button>
             <div class="row">
                 <c:forEach var="article" items="${articles}">
                     <div class="col-md-4 mb-4">

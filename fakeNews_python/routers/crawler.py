@@ -17,6 +17,7 @@ async def fetch_and_analyze_news(url: str):
 
         content = result.get("content", "")
         summary = result.get("summary", "요약 없음")
+        keywords = result.get("keywords", "")
 
         # ✅ 크롤링 결과 확인 출력
         print("\n📰 [크롤링 결과]")
@@ -30,6 +31,7 @@ async def fetch_and_analyze_news(url: str):
 
         # ✅ 3️⃣ 최종 결과 반환
         return {
+            "keywords":keywords,
             "content": content,
             "summary": summary,
             "analysis": analysis_result

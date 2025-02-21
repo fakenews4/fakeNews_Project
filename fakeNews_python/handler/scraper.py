@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import google.generativeai as genai
 import tensorflow as tf
+from handler.keyword import extract_keywords
+
+
 
 # ✅ Google AI API 설정 (API Key 필요)
 genai.configure(api_key="AIzaSyAqiutR9Uc1Q4DUtRQdiAu58U6apM8jmek")  # 발급받은 API 키 입력
@@ -39,11 +42,16 @@ def scrape_naver_article(url: str):
 
         print(f"✅ 네이버 뉴스 크롤링 성공\n본문: {content_text[:100]}...")
 
+
         # ✅ 요약 기능 추가
         summary = summarize_news(content_text)
         print(f"✅ 뉴스 요약 완료: {summary[:100]}...")
 
-        return {"content": content_text, "summary": summary}
+        # ✅ 핵심 키워드 추출
+        keywords = extract_keywords(content_text)
+        print(f"✅ 핵심 키워드: {keywords}")
+
+        return {"keywords": keywords, "content": content_text, "summary": summary }
 
     except Exception as e:
         print(f"❌ 네이버 뉴스 크롤링 오류: {e}")
