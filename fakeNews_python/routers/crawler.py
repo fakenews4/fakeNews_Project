@@ -25,7 +25,6 @@ async def fetch_and_analyze_news(url: str):
 
         # ✅ 2️⃣ AI 모델 판별 실행
         analysis_result = classify_news(content)
-
         print(analysis_result)
 
         # ✅ 3️⃣ 최종 결과 반환

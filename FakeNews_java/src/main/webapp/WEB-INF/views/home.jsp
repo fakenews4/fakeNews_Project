@@ -14,75 +14,85 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
+            position: relative;
         }
-        #main_container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 350px;
-        }
-        #main_header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            font-weight: bold;
-        }
-        #main_logo {
-            font-size: 24px;
-            color: #333;
-        }
+
+        /* 오른쪽 상단 뉴스 추천 버튼 */
         #main_recommend {
-            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 30px;
             background: #007bff;
             color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
             transition: background 0.3s;
+            width: 120px;
+            text-align: center;
         }
+
         #main_recommend:hover {
             background: #0056b3;
         }
-        form {
-            margin-top: 20px;
+
+        /* 로고 */
+        #main_logo img {
+            width: 180px;
+            height: auto;
+            margin-bottom: 20px;
         }
+
+        /* 검색 입력창 스타일 */
         input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
+            width: 500px;
+            padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 30px;
+            font-size: 14px; /* 기존 18px → 14px */
+            text-align: center;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
+        /* 검색 버튼 */
         button {
-            margin-top: 10px;
-            width: 100%;
-            padding: 10px;
+            width: 180px; /* 기존 200px → 180px */
+            padding: 12px; /* 기존 15px → 12px */
             background: #28a745;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px; /* 기존 16px → 14px */
             transition: background 0.3s;
+            margin-top: 10px;
         }
+
         button:hover {
             background: #218838;
         }
+
     </style>
 </head>
 <body>
-<div id="main_container">
-    <div id="main_header">
-        <div id="main_logo">Logo</div>
-        <div id="main_recommend" onclick="move()">뉴스 추천</div>
+
+    <!-- 뉴스 추천 버튼 -->
+    <div id="main_recommend" onclick="move()">뉴스 추천</div>
+
+    <!-- 로고 -->
+    <div id="main_logo">
+        <img src="${pageContext.request.contextPath}/images/logo.png" alt="logo">
     </div>
+
+    <!-- 검색 입력창과 버튼 -->
     <form action="/distinguish" method="POST">
-        <label for="url">검증할 URL:</label>
-        <input type="text" id="url" name="url" required>
+        <input type="text" id="url" name="url" placeholder="검증할 URL을 입력하세요" required>
         <button type="submit">검증하기</button>
     </form>
-</div>
+
 </body>
 </html>
