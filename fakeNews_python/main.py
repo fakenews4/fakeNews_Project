@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import news, crawler
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 print("✅ FastAPI 서버 시작 중...")
 

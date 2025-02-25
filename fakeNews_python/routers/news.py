@@ -7,15 +7,17 @@ router = APIRouter()
 def fetch_and_recommend_news(keywords: str = "korea"):
     """뉴스를 가져오고 랜덤 추천"""
     try:
+        print("에러1")
         # Step 1: Fetch news from API
         news_items = fetch_news_from_api(keywords)
         if not news_items:
             return {"message": "No news found for the given keywords."}
 
-
+        print("에러2")
         # Step 2: Save news t`o database
         save_news_to_db(news_items)
 
+        print("에러3")
         # Step 3: Get recommendations from the saved news
         recommended_news = get_random_news_recommendations(keywords)
         if recommended_news.empty:

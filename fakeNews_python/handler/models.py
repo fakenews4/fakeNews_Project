@@ -64,7 +64,7 @@ def adjust_score(base_score, indicators):
 
 def analyze_with_gemini(article):
     """Gemini API를 사용한 분석"""
-    gemini_api_key = os.getenv("GEMINI_API")  
+    gemini_api_key = "AIzaSyDSucTqwJEe5KfUpNIQ-C7SbBB6IchijzI"
     if not gemini_api_key:
         return "Gemini API 키가 설정되지 않았습니다."
 

@@ -4,6 +4,8 @@ import pandas as pd
 import os
 from config.config import get_db_connection,PUBLISHER_MAPPING
 from urllib.parse import urlparse
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 def get_publisher_from_url(originallink):
     """ 원본 링크에서 도메인을 추출하고 언론사 이름을 반환하는 함수 """
@@ -15,7 +17,6 @@ def get_publisher_from_url(originallink):
 
     return PUBLISHER_MAPPING.get(domain, "지방언론사")  # 매칭 안 되면 `Unknown` 반환
 
-# API 호출: 키워드를 기반으로 뉴스 가져오기
 def fetch_news_from_api(keywords, display=100):
     client_id = os.getenv("NAVER_KEY")
     client_secret = os.getenv("NAVER_SECRET_KEY")
@@ -33,16 +34,28 @@ def fetch_news_from_api(keywords, display=100):
     
     if response.status_code == 200:
         news_items = response.json().get("items", [])
-
+        
+        # 🔹 제목 또는 설명에 정확한 키워드 포함된 기사만 남김
+        filtered_news = []
         for news in news_items:
-            originallink = news.get("originallink", news.get("link", ""))
-            news["publisher"] = get_publisher_from_url(originallink)  # ✅ 언론사 정보 추가
+            title = news["title"]
+            description = news["description"]
+            
+            # 모든 키워드가 포함된 기사만 추가 (부분 포함된 것 제외)
+            if all(keyword in title or keyword in description for keyword in keywords):
+                filtered_news.append(news)
 
-        return news_items
+        print("🔹 [강제 필터링된 뉴스]")
+        for news in filtered_news:
+            print(f"📰 제목: {news['title']}")
+            print(f"📌 설명: {news['description']}")
+            print(f"🔗 링크: {news['link']}\n")
+
+        return filtered_news
     else:
-        print(f"Error {response.status_code}: {response.text}")
+        print(f"❌ Error {response.status_code}: {response.text}")
         return []
-
+    
 # DB에 중복 확인 및 뉴스 저장
 def save_news_to_db(news_items):
     conn = get_db_connection()
@@ -70,26 +83,31 @@ def save_news_to_db(news_items):
     conn.commit()
     conn.close()
 
-# DB에서 9개의 뉴스 가져오기
-def get_news_recommendations():
-    conn = get_db_connection()
-    df = pd.read_sql_query("SELECT * FROM news LIMIT 9", conn)
-    conn.close()
-    return df
-
-# DB에서 키워드와 관련된 기사 9개 랜덤 선택
 def get_random_news_recommendations(keywords):
     conn = get_db_connection()
     
-    # 키워드를 포함하는 기사를 검색
+    # 🔹 키워드를 포함하는 기사 검색
     keyword_conditions = " OR ".join([f"title LIKE '%%{keyword}%%'" for keyword in keywords])
     query = f"SELECT * FROM news WHERE {keyword_conditions}"
     df = pd.read_sql_query(query, conn)
     conn.close()
 
-    # 기사가 없으면 빈 DataFrame 반환
+    # 🔹 검색된 기사가 없으면 빈 DataFrame 반환
     if df.empty:
         return pd.DataFrame()
 
-    # 기사가 9개 이상이면 랜덤으로 9개 선택
-    return df.sample(n=min(9, len(df)))
+    # 🔹 TF-IDF 벡터 변환
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(df["title"] + " " + df["description"])
+
+    # 🔹 코사인 유사도 계산
+    cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
+    # 🔹 평균적으로 유사도가 높은 기사 9개 선택
+    avg_similarity = cosine_sim.mean(axis=0)  # 각 기사별 평균 유사도 계산
+    df["similarity"] = avg_similarity  # 데이터프레임에 유사도 추가
+    df = df.sort_values(by="similarity", ascending=False)  # 유사도가 높은 순으로 정렬
+
+    # 🔹 상위 유사한 기사 중에서 랜덤으로 9개 선택
+    top_articles = df.head(20)  # 상위 20개 중에서 랜덤 샘플링
+    return top_articles.sample(n=min(9, len(top_articles)))
